@@ -223,6 +223,6 @@ def generate_followup_questions():
 
 if __name__ == '__main__':
     # Use environment variables for production
-    port = int(os.getenv('PORT', 5001))
+    port = int(os.getenv('PORT', 5003))
     host = os.getenv('HOST', '0.0.0.0')
     app.run(host=host, port=port, debug=app.config['DEBUG'])
