@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Care AI Diagnostics - Medical Symptom Checker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="logo d-flex align-items-center">
+                    <div class="logo-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <circle cx="16" cy="16" r="16" fill="#00d4aa"/>
+                            <path d="M16 8v16M8 16h16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <span class="logo-text">Care AI Diagnostics</span>
+                </div>
+                <nav class="nav-links">
+                    <a href="#" class="nav-link">For business</a>
+                    <a href="#" class="nav-link" id="restartAssessment">Restart assessment</a>
+                    <div class="language-selector">
+                        <span>English</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M4.427 9.573L8 6l3.573 3.573"/>
+                        </svg>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <div class="nav-item active" data-step="0">
+                    <span class="nav-text">Case Type</span>
+                </div>
+                <div class="nav-item" data-step="1">
+                    <span class="nav-text">Patient</span>
+                </div>
+                <div class="nav-item" data-step="2">
+                    <span class="nav-text">Clinical Vitals</span>
+                </div>
+                <div class="nav-item" data-step="3">
+                    <span class="nav-text">Patient History Followup</span>
+                </div>
+                <div class="nav-item" data-step="4">
+                    <span class="nav-text">Symptoms</span>
+                </div>
+                <div class="nav-item" data-step="5">
+                    <span class="nav-text">Interview</span>
+                </div>
+                <div class="nav-item" data-step="6">
+                    <span class="nav-text">Results</span>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <button class="back-btn">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+                    </svg>
+                    Back
+                </button>
+            </div>
+
+            <div class="content-body">
+                <!-- Step 0: Case Type Selection -->
+                <div class="step-content active" id="step-0">
+                    <div class="step-header">
+                        <h1 class="step-title">Select the type of medical case</h1>
+                        <p class="step-subtitle">Choose the category that best describes your situation</p>
+                    </div>
+                    
+                    <div class="selection-cards">
+                        <div class="selection-card" data-value="accident">
+                            <div class="card-icon">
+                                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                                    <circle cx="32" cy="32" r="28" stroke="#e53e3e" stroke-width="3" fill="none"/>
+                                    <path d="M32 20v16M32 44h.01" stroke="#e53e3e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="card-label">Accident</div>
+                        </div>
+                        
+                        <div class="selection-card" data-value="illness">
+                            <div class="card-icon">
+                                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                                    <path d="M32 8C18.7 8 8 18.7 8 32s10.7 24 24 24 24-10.7 24-24S45.3 8 32 8z" stroke="#f59e0b" stroke-width="3" fill="none"/>
+                                    <path d="M28 28c0-2.2 1.8-4 4-4s4 1.8 4 4M28 40h8" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <div class="card-label">Illness</div>
+                        </div>
+                    </div>
+                    
+                    <div class="help-section">
+                        <a href="#" class="help-link">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zM7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                            </svg>
+                            What should I select?
+                        </a>
+                        <a href="#" class="help-link">Report an issue with this question</a>
+                    </div>
+                </div>
+
+                <!-- Step 1: Patient - Comprehensive Information -->
+                <div class="step-content" id="step-1">
+                    <div class="step-header">
+                        <h1 class="step-title">Patient Information</h1>
+                        <p class="step-subtitle">Please provide your comprehensive medical and demographic information</p>
+                    </div>
+                    
+                    <div class="patient-form">
+                        <!-- Aadhar ID Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Identity Verification</h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="aadharScan" class="form-label">Aadhar ID Scan Upload & Extract Name, DOB, Gender, Address (A)</label>
+                                        <input type="file" class="form-control" id="aadharScan" accept="image/*,.pdf">
+                                        <small class="form-text text-muted">Upload Aadhar card scan to auto-extract personal information</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Basic Demographics Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Basic Demographics</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="firstName" class="form-label">First Name (A)</label>
+                                        <input type="text" class="form-control" id="firstName" placeholder="Enter first name" value="Priya">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="lastName" class="form-label">Last Name (A)</label>
+                                        <input type="text" class="form-control" id="lastName" placeholder="Enter last name" value="Sharma">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="middleName" class="form-label">Middle Name (A)</label>
+                                        <input type="text" class="form-control" id="middleName" placeholder="Enter middle name (optional)" value="Kumari">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="maidenName" class="form-label">Maiden Name (A)</label>
+                                        <input type="text" class="form-control" id="maidenName" placeholder="Enter maiden name (if applicable)" value="Patel">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="dateOfBirth" class="form-label">Date of Birth (A)</label>
+                                        <input type="date" class="form-control" id="dateOfBirth" value="1989-03-15">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="patientAge" class="form-label">Age (O)</label>
+                                        <input type="number" class="form-control" id="patientAge" min="0" max="120" placeholder="Auto-calculated from DOB" value="35" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Gender (O)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="gender-female" name="gender" value="female" checked>
+                                                <label for="gender-female">Female</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="gender-male" name="gender" value="male">
+                                                <label for="gender-male">Male</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="gender-other" name="gender" value="other">
+                                                <label for="gender-other">Other</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Information Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Contact Information</h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="address" class="form-label">Address (A)</label>
+                                        <textarea class="form-control" id="address" rows="3" placeholder="Enter complete residential address including street, city, state, and zip code">123 MG Road, Bandra West
+Mumbai, Maharashtra - 400050
+India</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="phoneNumber" class="form-label">Phone Number (A)</label>
+                                        <input type="tel" class="form-control" id="phoneNumber" placeholder="Enter phone number" value="+91 98765 43210">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="emailAddress" class="form-label">Email Address (A)</label>
+                                        <input type="email" class="form-control" id="emailAddress" placeholder="Enter email address" value="priya.sharma@email.com">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Emergency Contact Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Emergency Contact</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="emergencyContactName" class="form-label">Emergency Contact Name (A)</label>
+                                        <input type="text" class="form-control" id="emergencyContactName" placeholder="Enter emergency contact name" value="Rajesh Sharma">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="emergencyContactPhone" class="form-label">Emergency Contact Phone (A)</label>
+                                        <input type="tel" class="form-control" id="emergencyContactPhone" placeholder="Enter emergency contact phone" value="+91 98765 43211">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="emergencyContactRelation" class="form-label">Relationship to Patient (A)</label>
+                                        <input type="text" class="form-control" id="emergencyContactRelation" placeholder="e.g., Spouse, Parent, Sibling" value="Husband">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Language & Social Information Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Language & Social Information</h3>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Preferred Language (A)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="lang-english" name="language" value="english" checked>
+                                                <label for="lang-english">English</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="lang-hindi" name="language" value="hindi">
+                                                <label for="lang-hindi">Hindi</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="lang-gujarati" name="language" value="gujarati">
+                                                <label for="lang-gujarati">Gujarati</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Marital Status (A)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="marital-single" name="maritalStatus" value="single">
+                                                <label for="marital-single">Single</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="marital-married" name="maritalStatus" value="married" checked>
+                                                <label for="marital-married">Married</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="marital-divorced" name="maritalStatus" value="divorced">
+                                                <label for="marital-divorced">Divorced</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="marital-widowed" name="maritalStatus" value="widowed">
+                                                <label for="marital-widowed">Widowed</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Education Level (A)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="edu-uneducated" name="educationLevel" value="uneducated">
+                                                <label for="edu-uneducated">Uneducated</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="edu-primary" name="educationLevel" value="primary">
+                                                <label for="edu-primary">Primary School</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="edu-high" name="educationLevel" value="high">
+                                                <label for="edu-high">High School</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="edu-graduate" name="educationLevel" value="graduate" checked>
+                                                <label for="edu-graduate">Graduate</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Employment & Economic Information Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Employment & Economic Information</h3>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Occupation (D)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="occ-farmer" name="occupation" value="farmer">
+                                                <label for="occ-farmer">Farmer</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="occ-labor" name="occupation" value="labor">
+                                                <label for="occ-labor">Labor</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="occ-hazards" name="occupation" value="hazards">
+                                                <label for="occ-hazards">Hazards (Chemical)</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="occ-others" name="occupation" value="others" checked>
+                                                <label for="occ-others">Others</label>
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control mt-2" id="occupationOther" placeholder="If others, specify occupation" value="Software Engineer">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Employment Status (A)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="emp-employed" name="employmentStatus" value="employed" checked>
+                                                <label for="emp-employed">Employed</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="emp-unemployed" name="employmentStatus" value="unemployed">
+                                                <label for="emp-unemployed">Unemployed</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="emp-student" name="employmentStatus" value="student">
+                                                <label for="emp-student">Student</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="emp-retired" name="employmentStatus" value="retired">
+                                                <label for="emp-retired">Retired</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Current Employment Status (A)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="curr-emp-employed" name="currentEmploymentStatus" value="employed" checked>
+                                                <label for="curr-emp-employed">Employed</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="curr-emp-unemployed" name="currentEmploymentStatus" value="unemployed">
+                                                <label for="curr-emp-unemployed">Unemployed</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="curr-emp-retired" name="currentEmploymentStatus" value="retired">
+                                                <label for="curr-emp-retired">Retired</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Economic Status (A)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="econ-below-poverty" name="economicStatus" value="below-poverty">
+                                                <label for="econ-below-poverty">Below Poverty Line</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="econ-lower" name="economicStatus" value="lower">
+                                                <label for="econ-lower">Lower (up to 2.5 lakh per year)</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="econ-middle" name="economicStatus" value="middle" checked>
+                                                <label for="econ-middle">Middle (up to 25L per year)</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="econ-upper" name="economicStatus" value="upper">
+                                                <label for="econ-upper">Upper (above 25L per year)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Income Source (A)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="income-employment" name="incomeSource" value="employment" checked>
+                                                <label for="income-employment">Employment</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="income-self-employment" name="incomeSource" value="self-employment">
+                                                <label for="income-self-employment">Self-employment</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="income-benefits" name="incomeSource" value="benefits">
+                                                <label for="income-benefits">Benefits</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Medical Conditions Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Medical Conditions</h3>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Diabetes (D)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="diabetes-yes" name="diabetes" value="yes">
+                                                <label for="diabetes-yes">Yes</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="diabetes-no" name="diabetes" value="no" checked>
+                                                <label for="diabetes-no">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Hypertension/BP (D)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="hypertension-yes" name="hypertension" value="yes">
+                                                <label for="hypertension-yes">Yes</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="hypertension-no" name="hypertension" value="no" checked>
+                                                <label for="hypertension-no">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Asthma (D)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="asthma-yes" name="asthma" value="yes">
+                                                <label for="asthma-yes">Yes</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="asthma-no" name="asthma" value="no" checked>
+                                                <label for="asthma-no">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Heart Disease (D)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="heart-disease-yes" name="heartDisease" value="yes">
+                                                <label for="heart-disease-yes">Yes</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="heart-disease-no" name="heartDisease" value="no" checked>
+                                                <label for="heart-disease-no">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Medical History Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Medical History</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Family History (A)</label>
+                                        <div class="checkbox-group">
+                                            <div class="checkbox-option">
+                                                <input type="checkbox" id="family-diabetes" name="familyHistory" value="diabetes" checked>
+                                                <label for="family-diabetes">Diabetes</label>
+                                            </div>
+                                            <div class="checkbox-option">
+                                                <input type="checkbox" id="family-bp" name="familyHistory" value="bp" checked>
+                                                <label for="family-bp">BP</label>
+                                            </div>
+                                            <div class="checkbox-option">
+                                                <input type="checkbox" id="family-asthma" name="familyHistory" value="asthma">
+                                                <label for="family-asthma">Asthma</label>
+                                            </div>
+                                            <div class="checkbox-option">
+                                                <input type="checkbox" id="family-heart" name="familyHistory" value="heart-disease" checked>
+                                                <label for="family-heart">Heart Disease</label>
+                                            </div>
+                                            <div class="checkbox-option">
+                                                <input type="checkbox" id="family-none" name="familyHistory" value="none">
+                                                <label for="family-none">None</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Blood Group (A)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="blood-A-pos" name="bloodGroup" value="A+">
+                                                <label for="blood-A-pos">A+</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="blood-A-neg" name="bloodGroup" value="A-">
+                                                <label for="blood-A-neg">A-</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="blood-B-pos" name="bloodGroup" value="B+" checked>
+                                                <label for="blood-B-pos">B+</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="blood-B-neg" name="bloodGroup" value="B-">
+                                                <label for="blood-B-neg">B-</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="blood-AB-pos" name="bloodGroup" value="AB+">
+                                                <label for="blood-AB-pos">AB+</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="blood-AB-neg" name="bloodGroup" value="AB-">
+                                                <label for="blood-AB-neg">AB-</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="blood-O-pos" name="bloodGroup" value="O+">
+                                                <label for="blood-O-pos">O+</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="blood-O-neg" name="bloodGroup" value="O-">
+                                                <label for="blood-O-neg">O-</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="vaccineHistoryScan" class="form-label">Vaccine Scan Upload (A)</label>
+                                <input type="file" class="form-control" id="vaccineHistoryScan" accept="image/*,.pdf">
+                                <small class="form-text text-muted">Upload vaccination record or certificate</small>
+                            </div>
+                        </div>
+
+                        <!-- Insurance Information Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Insurance Information</h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="insurancePdf" class="form-label">Insurance PDF Upload (A)</label>
+                                        <input type="file" class="form-control" id="insurancePdf" accept=".pdf,image/*">
+                                        <small class="form-text text-muted">Upload Insurance PDF to extract details (e.g., Ayushman Bharat health card)</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="insuranceProvider" class="form-label">Insurance Provider (A)</label>
+                                        <input type="text" class="form-control" id="insuranceProvider" placeholder="e.g., Ayushman Bharat, Star Health" value="Star Health Insurance">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="policyNumber" class="form-label">Policy Number (A)</label>
+                                        <input type="text" class="form-control" id="policyNumber" placeholder="Enter policy number" value="SH-2024-789456123">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Medical Records Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Electronic Medical Records</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">EMR Options (A)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="emr-existing" name="emrOption" value="existing" checked>
+                                                <label for="emr-existing">Existing EMR</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="emr-other" name="emrOption" value="other">
+                                                <label for="emr-other">Any other EMR</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="emr-none" name="emrOption" value="none">
+                                                <label for="emr-none">None</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="emrId" class="form-label">EMR ID (if available) (A)</label>
+                                        <input type="text" class="form-control" id="emrId" placeholder="Electronic Medical Record ID" value="MH-2024-789456">
+                                        <small class="form-text text-muted">This helps link to your existing medical records</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- EMR Registration Question -->
+                            <div class="form-group" id="emrRegistrationSection" style="display: none;">
+                                <label class="form-label">Do you want to register for a new EMR with us? (A)</label>
+                                <div class="radio-group">
+                                    <div class="radio-option">
+                                        <input type="radio" id="emr-register-yes" name="emrRegistration" value="yes">
+                                        <label for="emr-register-yes">Yes</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="emr-register-no" name="emrRegistration" value="no">
+                                        <label for="emr-register-no">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group" id="emrScanSection" style="display: block;">
+                                <label for="emrScan" class="form-label">Existing EMR - Provide Scan (A)</label>
+                                <input type="file" class="form-control" id="emrScan" accept="image/*,.pdf" multiple>
+                                <small class="form-text text-muted">Upload existing EMR documents or medical records</small>
+                            </div>
+                        </div>
+
+                        <!-- Patient Identification Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Patient Identification</h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="patientId" class="form-label">Patient ID (System Generated) (A)</label>
+                                        <input type="text" class="form-control" id="patientId" readonly value="PAT-2024-001234" placeholder="System will generate unique patient ID">
+                                        <small class="form-text text-muted">Ensuring that patient records are accurately linked to the correct individual</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Travel History Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Travel History</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Travel Outside India in last 3 months (A)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="travel-outside-yes" name="travelOutsideIndia" value="yes" checked>
+                                                <label for="travel-outside-yes">Yes</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="travel-outside-no" name="travelOutsideIndia" value="no">
+                                                <label for="travel-outside-no">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Travel in last 3 months (A)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="travel-general-yes" name="travelGeneral" value="yes" checked>
+                                                <label for="travel-general-yes">Yes</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="travel-general-no" name="travelGeneral" value="no">
+                                                <label for="travel-general-no">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="currentLocation" class="form-label">Current Location (City, Country) (A)</label>
+                                        <input type="text" class="form-control" id="currentLocation" placeholder="e.g., Mumbai, India" value="Mumbai, India">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="travelHistory" class="form-label">Travel History Details (A)</label>
+                                        <textarea class="form-control" id="travelHistory" rows="2" placeholder="List countries/regions visited in the last 3 months">Thailand (Bangkok) - 2 weeks ago for business trip</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Female Gender Questions Section -->
+                        <div class="form-section" id="femaleQuestionsSection" style="display: block;">
+                            <h3 class="section-title">Female Gender Questions (D)</h3>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Currently Pregnant (D)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="pregnant-yes" name="currentlyPregnant" value="yes">
+                                                <label for="pregnant-yes">Yes</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="pregnant-no" name="currentlyPregnant" value="no" checked>
+                                                <label for="pregnant-no">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" id="pregnancyMonthSection" style="display: none;">
+                                    <div class="form-group">
+                                        <label class="form-label">Pregnancy Month (D)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="pregnancy-0-3" name="pregnancyMonth" value="0-3">
+                                                <label for="pregnancy-0-3">0-3 months</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="pregnancy-3-6" name="pregnancyMonth" value="3-6">
+                                                <label for="pregnancy-3-6">3-6 months</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="pregnancy-7-9" name="pregnancyMonth" value="7-9">
+                                                <label for="pregnancy-7-9">7-9 months</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Child birth in last 6 months (D)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="childbirth-yes" name="childbirthRecent" value="yes">
+                                                <label for="childbirth-yes">Yes</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="childbirth-no" name="childbirthRecent" value="no" checked>
+                                                <label for="childbirth-no">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Clinical Vitals -->
+                <div class="step-content" id="step-2">
+                    <div class="step-header">
+                        <h1 class="step-title">Clinical Vitals</h1>
+                        <p class="step-subtitle">Please enter your vital signs and measurements</p>
+                    </div>
+
+                    <div class="patient-form">
+                        <!-- Essential Vital Signs -->
+                        <div class="form-section">
+                            <h3 class="section-title">Essential Vital Signs</h3>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="temperature" class="form-label">Body Temperature</label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" id="temperature" step="0.1" min="90" max="110" placeholder="e.g., 98.6" value="99.2">
+                                            <select class="form-control" id="temperatureUnit" style="max-width: 80px;">
+                                                <option value="F" selected>°F</option>
+                                                <option value="C">°C</option>
+                                            </select>
+                                        </div>
+                                        <small class="form-text text-muted">Normal: 97-99°F (36-37°C)</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="pulseRate" class="form-label">Pulse Rate (BPM)</label>
+                                        <input type="number" class="form-control" id="pulseRate" min="40" max="200" placeholder="e.g., 72" value="78">
+                                        <small class="form-text text-muted">Normal range: 60-100 BPM</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="respiratoryRate" class="form-label">Respiratory Rate (breaths/min)</label>
+                                        <input type="number" class="form-control" id="respiratoryRate" min="8" max="40" placeholder="e.g., 16" value="18">
+                                        <small class="form-text text-muted">Normal range: 12-20/min</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="systolic" class="form-label">Blood Pressure - Systolic</label>
+                                        <input type="number" class="form-control" id="systolic" min="70" max="250" placeholder="e.g., 120" value="125">
+                                        <small class="form-text text-muted">Top number (mmHg)</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="diastolic" class="form-label">Blood Pressure - Diastolic</label>
+                                        <input type="number" class="form-control" id="diastolic" min="40" max="150" placeholder="e.g., 80" value="82">
+                                        <small class="form-text text-muted">Bottom number (mmHg)</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="oxygenSaturation" class="form-label">Oxygen Saturation (SpO2)</label>
+                                        <input type="number" class="form-control" id="oxygenSaturation" min="70" max="100" placeholder="e.g., 98" value="97">
+                                        <small class="form-text text-muted">Normal range: 95-100%</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Physical Measurements Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Physical Measurements</h3>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="height" class="form-label">Height</label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" id="height" step="0.1" min="50" max="250" placeholder="e.g., 170" value="165">
+                                            <select class="form-control" id="heightUnit" style="max-width: 80px;">
+                                                <option value="cm" selected>cm</option>
+                                                <option value="ft">ft</option>
+                                                <option value="in">in</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="weight" class="form-label">Weight *</label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" id="weight" step="0.1" min="20" max="500" placeholder="e.g., 70" value="62">
+                                            <select class="form-control" id="weightUnit" style="max-width: 80px;">
+                                                <option value="kg" selected>kg</option>
+                                                <option value="lbs">lbs</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="bmi" class="form-label">BMI (Auto-calculated)</label>
+                                        <input type="text" class="form-control" id="bmi" readonly placeholder="Will calculate automatically" value="22.8 (Normal)">
+                                        <small class="form-text text-muted">Normal: 18.5-24.9</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="waistCircumference" class="form-label">Waist Circumference (cm)</label>
+                                        <input type="number" class="form-control" id="waistCircumference" min="50" max="200" placeholder="e.g., 85" value="78">
+                                        <small class="form-text text-muted">Optional measurement</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Blood Sugar & Metabolic -->
+                        <div class="form-section">
+                            <h3 class="section-title">Metabolic Measurements</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="bloodSugar" class="form-label">Glucometer (Random Blood Sugar) mg/dL</label>
+                                        <input type="number" class="form-control" id="bloodSugar" min="50" max="500" placeholder="e.g., 110" value="95">
+                                        <small class="form-text text-muted">Normal range: 70-140 mg/dL</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Pain Level (0-10 scale)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="pain-0" name="painScale" value="0">
+                                                <label for="pain-0">0 - No pain</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="pain-1" name="painScale" value="1">
+                                                <label for="pain-1">1-3 - Mild pain</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="pain-4" name="painScale" value="4" checked>
+                                                <label for="pain-4">4-6 - Moderate pain</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="pain-7" name="painScale" value="7">
+                                                <label for="pain-7">7-8 - Severe pain</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="pain-9" name="painScale" value="9">
+                                                <label for="pain-9">9-10 - Excruciating pain</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Heart Monitoring Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Heart Beat Monitor (Stethoscope)</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Heart Rhythm (Stethoscope Findings)</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="rhythm-regular" name="heartRhythm" value="regular" checked>
+                                                <label for="rhythm-regular">Regular</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="rhythm-irregular" name="heartRhythm" value="irregular">
+                                                <label for="rhythm-irregular">Irregular</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="rhythm-unknown" name="heartRhythm" value="unknown">
+                                                <label for="rhythm-unknown">Not measured</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="heartMurmur" class="form-label">Heart & Lung Sounds Inference</label>
+                                        <textarea class="form-control" id="heartMurmur" rows="3" placeholder="Describe any murmurs, gallops, congestion in lungs, water in lungs, or unusual heart/lung sounds">Heart sounds: S1 and S2 normal, no murmurs detected
+Lung sounds: Clear bilaterally, no wheezing or crackles</textarea>
+                                        <small class="form-text text-muted">Include findings like congestion, fluid in lungs, murmurs, etc.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Electrocardiogram (ECG) Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Electrocardiogram (ECG) *</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">ECG Available</label>
+                                        <div class="radio-group">
+                                            <div class="radio-option">
+                                                <input type="radio" id="ecg-yes" name="ecgAvailable" value="yes">
+                                                <label for="ecg-yes">Yes</label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" id="ecg-no" name="ecgAvailable" value="no" checked>
+                                                <label for="ecg-no">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" id="ecgDetailsSection" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="ecgFindings" class="form-label">ECG Findings</label>
+                                        <textarea class="form-control" id="ecgFindings" rows="3" placeholder="Describe ECG rhythm, rate, intervals, and any abnormalities"></textarea>
+                                        <small class="form-text text-muted">Include rhythm, rate, PR interval, QRS duration, ST changes, etc.</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="ecgUploadSection" style="display: none;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="ecgScan" class="form-label">ECG Scan Upload</label>
+                                        <input type="file" class="form-control" id="ecgScan" accept="image/*,.pdf">
+                                        <small class="form-text text-muted">Upload ECG strip or report image</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Respiratory Function Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Respiratory Function *</h3>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="peakFlow" class="form-label">Peak Expiratory Flow (PEF) L/min</label>
+                                        <input type="number" class="form-control" id="peakFlow" min="100" max="800" placeholder="e.g., 450" value="380">
+                                        <small class="form-text text-muted">If measured with peak flow meter</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="fev1" class="form-label">FEV1 (Forced Expiratory Volume) L</label>
+                                        <input type="number" class="form-control" id="fev1" step="0.1" min="0.5" max="6.0" placeholder="e.g., 3.2" value="2.8">
+                                        <small class="form-text text-muted">If spirometry available</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="respiratoryNotes" class="form-label">Respiratory Observations</label>
+                                        <textarea class="form-control" id="respiratoryNotes" rows="2" placeholder="Describe breathing difficulty, wheezing, shortness of breath">Mild shortness of breath on exertion, no wheezing at rest</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Photography & Visual Examination Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Photography & Visual Examination</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="tongueThroatScan" class="form-label">Photography of Tongue and Throat (Open Mouth)</label>
+                                        <input type="file" class="form-control" id="tongueThroatScan" accept="image/*">
+                                        <small class="form-text text-muted">Upload photo of tongue and throat with mouth open</small>
+                                    </div>
+                                    <div class="form-group mt-2">
+                                        <label for="tongueThroatComments" class="form-label">Tongue & Throat Comments</label>
+                                        <textarea class="form-control" id="tongueThroatComments" rows="2" placeholder="Describe any abnormalities, color changes, swelling, lesions">Tongue appears normal pink color, no swelling or lesions observed
+Throat appears slightly red but no visible swelling</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="infectionScan" class="form-label">Photography of Infection/Skin Rashes</label>
+                                        <input type="file" class="form-control" id="infectionScan" accept="image/*" multiple>
+                                        <small class="form-text text-muted">Upload photos of any skin rashes, infections, or abnormalities</small>
+                                    </div>
+                                    <div class="form-group mt-2">
+                                        <label for="infectionComments" class="form-label">Infection/Rash Comments</label>
+                                        <textarea class="form-control" id="infectionComments" rows="2" placeholder="Describe location, size, appearance, duration of rashes or infections">Small reddish rash on left forearm, approximately 2cm diameter
+Present for 3 days, slightly itchy but not painful</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Body Composition Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Body Composition (if available)</h3>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="muscleMass" class="form-label">Muscle Mass (%)</label>
+                                        <input type="number" class="form-control" id="muscleMass" step="0.1" min="10" max="70" placeholder="e.g., 35.2" value="32.5">
+                                        <small class="form-text text-muted">If measured by body composition scale</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="fatMass" class="form-label">Body Fat (%)</label>
+                                        <input type="number" class="form-control" id="fatMass" step="0.1" min="3" max="50" placeholder="e.g., 18.5" value="24.2">
+                                        <small class="form-text text-muted">If measured by body composition scale</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="bodyWater" class="form-label">Body Water (%)</label>
+                                        <input type="number" class="form-control" id="bodyWater" step="0.1" min="30" max="70" placeholder="e.g., 55.8" value="58.3">
+                                        <small class="form-text text-muted">If measured by body composition scale</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notes Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Additional Notes</h3>
+                            <div class="form-group">
+                                <label for="vitalsNotes" class="form-label">Additional Vital Signs or Observations</label>
+                                <textarea class="form-control" id="vitalsNotes" rows="3" placeholder="Any additional measurements, observations, or notes about your vital signs">Patient reports feeling slightly fatigued over the past week
+Sleep pattern normal (7-8 hours per night)
+Appetite remains good, no significant weight changes</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Patient History Followup -->
+                <div class="step-content" id="step-3">
+                    <div class="step-header">
+                        <h1 class="step-title">Patient History Follow-up</h1>
+                        <p class="step-subtitle">Additional questions based on your information and clinical measurements</p>
+                    </div>
+                    
+                    <!-- Loading Indicator -->
+                    <div id="historyFollowupLoading" class="loading-container" style="display: none;">
+                        <div class="loading-spinner"></div>
+                        <p class="loading-text">Analyzing your patient information and generating follow-up questions...</p>
+                        <div class="loading-details">
+                            <p>• Reviewing demographics and medical history</p>
+                            <p>• Analyzing clinical vitals for outliers</p>
+                            <p>• Generating targeted questions</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Generate Questions Button -->
+                    <div id="generateQuestionsContainer" class="generate-questions-button-container">
+                        <button id="generateQuestionsBtn" class="generate-questions-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;">
+                                <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                            </svg>
+                            Generate Follow-up Questions
+                        </button>
+                        <p class="generate-help-text">Click to generate AI-powered follow-up questions based on your patient information and clinical vitals</p>
+                    </div>
+                    
+                    <!-- Follow-up Questions Section -->
+                    <div id="followupQuestionsSection" class="followup-questions-main-container" style="display: none;">
+                        
+                        <!-- Questions Header Card -->
+                        <div class="questions-header-card">
+                            <div class="questions-icon">📋</div>
+                            <h3 class="questions-title">Follow-up Questions</h3>
+                            <p class="questions-description">Please answer these questions to provide additional clinical context</p>
+                        </div>
+                        
+                        <!-- Progress and Status Bar -->
+                        <div id="questionsProgressCard" class="questions-progress-card">
+                            <div class="progress-header">
+                                <span class="progress-label">Question <span id="currentQuestionNumber">1</span> of <span id="totalQuestions">10</span></span>
+                                <span class="progress-percentage"><span id="progressPercent">10</span>%</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" id="questionsProgressFill" style="width: 10%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Current Question Container -->
+                        <div id="currentQuestionContainer" class="current-question-main-card">
+                            <!-- Question content will be populated dynamically -->
+                        </div>
+                        
+                        <!-- Question Navigation Controls -->
+                        <div id="questionNavigationControls" class="question-navigation-controls">
+                            <button id="prevQuestionBtn" class="nav-btn nav-btn-secondary" style="display: none;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M19 12H6m6-7l-7 7 7 7"/>
+                                </svg>
+                                Previous
+                            </button>
+                            <button id="nextQuestionBtn" class="nav-btn nav-btn-primary">
+                                Next
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h13m-7-7l7 7-7 7"/>
+                                </svg>
+                            </button>
+                            <button id="completeQuestionsBtn" class="nav-btn nav-btn-success" style="display: none;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 6L9 17l-5-5"/>
+                                </svg>
+                                Complete Assessment
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Questions Summary -->
+                    <div id="questionsSummary" class="questions-summary-container" style="display: none;">
+                        <div class="summary-header-card">
+                            <div class="summary-success-icon">✅</div>
+                            <h3 class="summary-title">Follow-up Assessment Complete</h3>
+                            <p class="summary-description">Thank you for providing additional clinical information</p>
+                        </div>
+                        
+                        <div id="answeredQuestions" class="answered-questions-grid">
+                            <!-- Summary of answered questions will be shown here -->
+                        </div>
+                        
+                        <div class="summary-action-buttons">
+                            <button id="reviewAnswersBtn" class="action-btn action-btn-secondary">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                                Review Answers
+                            </button>
+                            <button id="proceedToSymptomsBtn" class="action-btn action-btn-primary">
+                                Continue to Symptoms
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h13m-7-7l7 7-7 7"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Symptoms -->
+                <div class="step-content" id="step-4">
+                    <div class="step-header">
+                        <h1 class="step-title">What are your symptoms?</h1>
+                        <p class="step-subtitle">Type and select the symptoms you are experiencing</p>
+                    </div>
+                    
+                    <div class="symptom-search-container">
+                        <div class="symptom-search">
+                            <input type="text" class="form-control" id="symptomInput" placeholder="Type your symptoms...">
+                            <div id="symptomSuggestions" class="suggestions"></div>
+                        </div>
+                        <div id="selectedSymptoms" class="selected-symptoms"></div>
+                        
+                        <!-- Free text input section -->
+                        <div class="free-text-symptoms mt-4">
+                            <h3 class="free-text-title">Or describe your symptoms in your own words:</h3>
+                            <textarea id="freeTextSymptoms" class="form-control free-text-input" 
+                                     placeholder="Describe any symptoms you're experiencing..." 
+                                     rows="4"></textarea>
+                            <small class="text-muted">You can use this space to describe symptoms that aren't in the suggestions above</small>
+                        </div>
+
+                        <!-- Analyze Symptoms Button -->
+                        <div class="analyze-symptoms-button-container mt-4">
+                            <button id="analyzeLabelsBtn" class="btn btn-primary analyze-labels-btn">
+                                🔬 Analyze My Symptoms
+                            </button>
+                            <p class="analyze-help-text">Click to see AI-detected symptom labels and their correlations</p>
+                        </div>
+
+                        <!-- Label Extraction Section -->
+                        <div id="labelExtractionSection" class="label-extraction-section mt-4" style="display: none;">
+                            <h3 class="section-title">🏷️ Detected Symptom Labels</h3>
+                            <p class="section-subtitle">Based on your symptoms, we've identified these key medical labels using AI analysis</p>
+                            
+                            <!-- Extracted Labels Display -->
+                            <div id="extractedLabels" class="extracted-labels-container">
+                                <!-- Labels will be populated here -->
+                            </div>
+
+                            <!-- Correlation Matrix -->
+                            <div id="correlationMatrix" class="correlation-matrix-section mt-4" style="display: none;">
+                                <h4 class="correlation-title">🔗 Symptom Correlations</h4>
+                                <p class="correlation-subtitle">Relationships between your symptoms</p>
+                                <div id="correlationMatrixContent" class="correlation-matrix-content">
+                                    <!-- Correlation matrix will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Interview - Follow-up Questions -->
+                <div class="step-content" id="step-5">
+                    <div class="step-header">
+                        <h1 class="step-title">Additional Information</h1>
+                        <p class="step-subtitle">Please answer these follow-up questions to help with the diagnosis</p>
+                    </div>
+                    
+                    <!-- Progress Bar -->
+                    <div id="interviewProgress" class="progress-container" style="display: none;">
+                        <div class="progress-header">
+                            <span class="progress-text">Question <span id="currentQuestion">1</span> of 10</span>
+                            <span class="progress-percentage">10%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Loading Indicator -->
+                    <div id="questionLoading" class="loading-container" style="display: none;">
+                        <div class="loading-spinner"></div>
+                        <p class="loading-text">Generating your next question...</p>
+                    </div>
+                    
+                    <div id="followupQuestions" class="followup-questions"></div>
+                </div>
+
+                <!-- Step 6: Results -->
+                <div class="step-content" id="step-6">
+                    <div class="step-header">
+                        <h1 class="step-title">Analysis Results</h1>
+                    </div>
+                    
+                    <!-- Results Loading Indicator -->
+                    <div id="resultsLoading" class="loading-container" style="display: none;">
+                        <div class="loading-spinner"></div>
+                        <p class="loading-text">Analyzing your symptoms...</p>
+                        <div class="loading-details">
+                            <p>• Processing symptom information</p>
+                            <p>• Consulting medical knowledge base</p>
+                            <p>• Generating recommendations</p>
+                        </div>
+                    </div>
+                    
+                    <div id="analysisResults" class="analysis-results"></div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation-section">
+                <button class="btn btn-secondary" id="prevBtn" style="display: none;">Previous</button>
+                <button class="btn btn-primary" id="nextBtn">Continue</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
